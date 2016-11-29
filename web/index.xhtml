@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>Login
+            <title>Index</title>
+        </h:head>
+        <h:body>
+            <ui:composition template="templates/master.xhtml">
+                <ui:define name="encabezado">
+                    
+                </ui:define>
+                <ui:define name="cuerpo">
+                    <f:metadata>
+                        <f:viewParam name="email" value="#{login.correo}"/>
+                        <f:viewParam name="hash" value="#{login.hash}"/>
+                    </f:metadata>
+                    <center><h2>¡Bienvenido!</h2></center>
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-5,ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
+                        <p:imageSwitch id="slider" effect="zoom" class="pull-right">
+                            <ui:repeat value="#{login.images}" var="image">
+                                <img src="resources/img/#{image}" width="600px" height="300px" alt="logo_vidaestetica_3" style="border-radius: 13em/3em;"/>
+                                    <!--<p:graphicImage name="resources/img/#{image}" />-->
+                            </ui:repeat>
+                        </p:imageSwitch>
+                        <p:fieldset legend="Login" style="margin-bottom:20px; align-content: center;">
+                            <h:form>
+                                
+                                <p:growl id="growlMensaje" showDetail="true" sticky="false" life="2500" />
+                                <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto;"    >
+                                    <h:outputLabel value="Usuario: "/>
+                                    <p:inputText id="login" label="usuario" value="#{login.login}" required="true" 
+                                                 requiredMessage="Usuario, no válido" 
+                                                 validatorMessage="La longitud del usuario debe ser minimo de 3 y máximo de 8">
+                                        <!--                                <f:validateLength minimum="3" maximum="8"/>
+                                                                        <f:validateRegex pattern="^[a-zA-Z0-9]+$"/>-->
+                                        <p:tooltip for="login" value="El usuario debe ser de no se que." position="left"/>
+                                    </p:inputText>
+                                    <h:outputLabel value="Contraseña: "/>
+                                    <p:password id="pwd" label="contraseña" value="#{login.pwd}" required="true" requiredMessage="Contraseña, no puede estar vacío"
+                                                validatorMessage="La longitud de la contraseña debe ser de 8 y sólo se permiten letras y/o números">
+                                        <!--                                <f:validateLength maximum="8" minimum="8"/>
+                                                                        <f:validateRegex pattern="^[a-zA-Z0-9]+$"/>-->
+                                        <p:tooltip for="pwd" value="La contraseña debe ser de 8 caracteres y sólo se permiten letras y/o números" position="left"/>
+                                    </p:password>
+                                    <p:spacer width="2"/>
+                                    <p:commandButton value="Iniciar Sesión" action="#{login.submit()}" update="growlMensaje"/>
+                                    <f:facet name="footer">
+                                        <h:panelGrid columns="3" style="margin-left: 10%;">
+                                            <p:outputPanel id="registra">
+                                                <p:commandLink value="Registrarse" ajax="false" immediate="true" action="pre_registro" />
+                                            </p:outputPanel>
+                                            <p:spacer width="10"/>
+                                            <p:outputPanel id="cambio_contra">
+                                                <p:commandLink value="Cambiar contraseña" ajax="false" immediate="true" action="cambio_contra"/>
+                                            </p:outputPanel>
+                                        </h:panelGrid>
+                                    </f:facet>
+                                </h:panelGrid>
+                            </h:form>
+
+                        </p:fieldset>
+                    </p:panelGrid>
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>
+

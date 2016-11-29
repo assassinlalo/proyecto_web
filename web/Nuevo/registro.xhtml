@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Facelet Title</title>
+        </h:head>
+        <h:body>
+            <ui:composition template="../templates/master.xhtml">
+                <ui:define name="cuerpo">
+                    <f:metadata>
+                        <f:viewParam name="ap" value="#{nuevo.apellidoPaterno}"/>
+                        <f:viewParam name="am" value="#{nuevo.apellidoMaterno}"/>
+                        <f:viewParam name="nom" value="#{nuevo.nombre}"/>
+                        <f:viewParam name="co" value="#{nuevo.correoE}"/>
+                    </f:metadata>
+                    <center>
+                        <h:form id="formCrear">
+                            <p:panel header="Insertar datos, para crear una nueva persona" style="width: 50%;">
+
+                                <p:growl id="growlMessage" showDetail="true" sticky="false" life="2500" />
+                                <!--                    <p:messages id="menInsert" closable="true" autoUpdate="false" />-->
+                                <h:panelGrid id="grid" columns="3" cellpadding="5">
+                                    <h:outputLabel for="nombre" value="Nombre:"/>
+                                    <h:inputText id="nombre" value="#{nuevo.nombre}" required="true" label="Nombre"/>
+                                    <p:message for="nombre"/>
+
+                                    <h:outputLabel for="apePat" value="Apellido Paterno:"/>
+                                    <h:inputText id="apePat" value="#{nuevo.apellidoPaterno}" required="true" label="Apellido Paterno"/>
+                                    <p:message for="apePat"/>
+
+                                    <h:outputLabel for="apeMat" value="Apellido Materno:"/>
+                                    <h:inputText id="apeMat" value="#{nuevo.apellidoMaterno}" required="true" label="Apellido Materno"/>
+                                    <p:message for="apeMat"/>
+
+                                    <h:outputLabel for="email" value="Correo Electronico: (Este sera tu usuario)"/>
+                                    <h:inputText id="email" value="#{nuevo.correoE}" required="true" label="Email"/>
+                                    <p:message for="email"/>
+
+                                    <p:graphicImage id="foto" name="resources/fotos/profile.png" width="140" height="130"/>
+                                    <!--<p:commandButton value="Tomar Foto" onclick="PF('TomaFoto').show()"/>-->
+                                    <p:message for="foto"/>
+
+                                    <h:outputLabel for="contrasenia" value="Contraseña"/>
+                                    <h:inputSecret id="contrasenia" value="#{nuevo.contrasena}" required="true" label="Contraseña"/>
+                                    <p:message for="contrasenia"/>
+
+                                    <h:outputLabel for="contrasenia_com" value="Confirmar Contraseña"/>
+                                    <h:inputSecret id="contrasenia_com" value="#{nuevo.confContrasena}" required="true" label="Contraseña"/>
+                                    <p:message for="contrasenia_com"/>
+
+                                    <p:commandButton id="registrarse" value="Registrase" icon="ui-icon-check" validateClient="true" action="#{nuevo.registrar()}" update="growlMessage" />
+
+                                </h:panelGrid>
+                            </p:panel>
+<!--                            <p:dialog id="TomaFoto" header="Tomar Foto" widgetVar="TomaFoto" closeOnEscape="true"
+                                      appendTo="@(body)" draggable="false" position="center" resizable="false">
+                                <p:photoCam widgetVar="pc" listener="" update="formCrear:foto" />
+                                <p:commandButton type="button" value="Capture" onclick="Captura()"/>
+                            </p:dialog>-->
+<!--                            <script>
+                                function Captura() {
+                                    PF('pc').capture();
+                                    PF('TomaFoto').jq.effect("share", {times: 5}, 100);
+                                    PF('TomaFoto').jq.effect("blind", 100);
+                                }
+                            </script>-->
+                            <p:blockUI block="formCrear" trigger="registrarse">
+                                Procesando <br/>
+                                <p:graphicImage library="img" name="squares.gif"/>
+                            </p:blockUI>
+                        </h:form>
+
+                    </center>
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>
+

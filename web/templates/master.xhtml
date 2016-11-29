@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+<!--        <c:set var="root" value="#{request.contextPath}/" />-->
+        <ui:composition>
+            <p:layout fullPage="true">
+<!--                <p:layoutUnit id="PageHeader" position="north" size="100" resizable="false" maxSize="100">
+                    <ui:insert name="encabezado">
+                        
+                    </ui:insert>
+                </p:layoutUnit>-->
+                <p:layoutUnit position="center">
+                    <f:facet name="header">
+                        
+                        <h:form>
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-10,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+                                <img src="#{request.contextPath}/resources/img/logo.png" width="350px" height="40px" alt="logo_vidaestetica_3"/>
+                                <ui:insert name="encabezado">
+                                    <p:commandButton value="Inicio" icon="fa fa-fw fa-home" class="pull-right" action="#{master.inicio()}"/>
+                                </ui:insert>
+<!--                                    <p:menuButton value="Options" class="pull-right">
+                                    <p:menuitem value="Save" icon="ui-icon-disk"/>
+                                    <p:menuitem value="Update" icon="ui-icon-arrowrefresh-1-w"/>
+                                    <p:menuitem value="Delete" ajax="false" icon="ui-icon-close"/>
+                                    <p:separator />
+                                    <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink"/>
+                                </p:menuButton>-->
+                            </p:panelGrid>
+                        </h:form>
+                    </f:facet>
+                    <f:facet name="footer">
+                        Elaborado por:
+                    </f:facet>
+                    <ui:insert name="cuerpo">
+                        
+                    </ui:insert>
+                </p:layoutUnit>
+            </p:layout>
+        </ui:composition>
+    </h:body>
+</html>
+
