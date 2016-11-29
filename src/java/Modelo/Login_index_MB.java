@@ -79,6 +79,7 @@ public class Login_index_MB implements Serializable {
             }else{
                 context.addMessage("growlMensaje", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Los datos no son válidos","Error"));
             }
+            
         }else{
             if((login != null) && pwd != null){
                 if(login.equals(correo)){
