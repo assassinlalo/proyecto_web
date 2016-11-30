@@ -41,8 +41,9 @@
                                     <h:inputText id="email" value="#{nuevo.correoE}" required="true" label="Email"/>
                                     <p:message for="email"/>
 
-                                    <p:graphicImage id="foto" name="resources/fotos/profile.png" width="140" height="130"/>
-                                    <!--<p:commandButton value="Tomar Foto" onclick="PF('TomaFoto').show()"/>-->
+                                    <p:graphicImage id="foto" value="/resources/fotos/#{nuevo.foto}.png" width="140" height="130"/>
+                                    <p:commandButton id="tomarFoto" value="Tomar Foto" onclick="PF('TomaFoto').show()"
+                                                     type="button"/>
                                     <p:message for="foto"/>
 
                                     <h:outputLabel for="contrasenia" value="Contraseña"/>
@@ -57,6 +58,7 @@
 
                                 </h:panelGrid>
                             </p:panel>
+                            
 <!--                            <p:dialog id="TomaFoto" header="Tomar Foto" widgetVar="TomaFoto" closeOnEscape="true"
                                       appendTo="@(body)" draggable="false" position="center" resizable="false">
                                 <p:photoCam widgetVar="pc" listener="" update="formCrear:foto" />
@@ -69,9 +71,17 @@
                                     PF('TomaFoto').jq.effect("blind", 100);
                                 }
                             </script>-->
+                            <p:dialog id="TomaFoto" header="Tomar foto" widgetVar="TomaFoto" modal="true"
+                                      closeOnEscape="true"  appendTo="@(body)" draggable="false" position="center" resizable="false">
+                                <p:photoCam widgetVar="pc"  listener="#{nuevo.oncapture}" update="foto" />
+                                <br></br>
+                                <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" >
+                                    <p:ajax oncomplete="PF('TomaFoto').hide();" />
+                                </p:commandButton>
+                            </p:dialog>       
                             <p:blockUI block="formCrear" trigger="registrarse">
                                 Procesando <br/>
-                                <p:graphicImage library="img" name="squares.gif"/>
+                                <p:graphicImage library="resources/img" name="squares.gif"/>
                             </p:blockUI>
                         </h:form>
 
