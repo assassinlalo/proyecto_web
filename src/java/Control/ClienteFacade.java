@@ -29,6 +29,7 @@ public class ClienteFacade {
         emp.setApellidoPaterno(empPojo.getApellidoPaterno());
         emp.setNombre(empPojo.getNombre());
         emp.setCorreoE(empPojo.getCorreoE());
+        emp.setNombreFoto(empPojo.getNombreFoto());
         try{
             usuario = userJpa.findByUser(user);
             emp.setUid(usuario);
@@ -38,5 +39,23 @@ public class ClienteFacade {
             result = false;
         }
         return result;
+    }
+    
+    public ClientePojo getCliente(String correo){
+        Usuarios usuario = userJpa.findByUser(correo);
+        Clientes cliente = empJPA.findByUid(usuario);
+        ClientePojo pojo = new ClientePojo();
+        if(cliente != null){
+            pojo.setApellidoMaterno(cliente.getApellidoMaterno());
+            pojo.setApellidoPaterno(cliente.getApellidoPaterno());
+            pojo.setCorreoE(cliente.getCorreoE());
+            pojo.setIdEmpleado(cliente.getIdCliente());
+            pojo.setIdUser(usuario.getUid());
+            pojo.setNombre(cliente.getNombre());
+            pojo.setNombreFoto(cliente.getNombreFoto());
+        }else{
+            pojo = null;
+        }
+        return pojo;
     }
 }

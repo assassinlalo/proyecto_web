@@ -8,45 +8,59 @@
     <f:view contentType="text/html">
         <h:head>
             <title>Facelet Title</title>
+             <script src="../resources/js/custom.js" />
         </h:head>
         <h:body>
             <ui:composition template="../templates/master.xhtml">
+                <ui:define name="encabezado">
+                    <p:commandButton value="LogOut" icon="fa fa-fw fa-sign-out" class="pull-right" action="#{master.cerrar_sesion()}"/>
+                </ui:define>
                 <ui:define name="cuerpo">
-                    <p:panel header="Pre registro de Cliente" style="width: 90%;">
-                    <h:form>
-                        <p:growl id="messages" showDetail="true" />
+                    <f:metadata>
+                        <f:event type="preRenderView" listener="#{dtFilterView.validaPagina()}"/>
+                    </f:metadata>
+                    <p:panel header="Control de Citas" style="width: 99%;">
+                        <h:form>
+                            <p:growl id="messages" showDetail="true" life="2500"/>
+                            <p:dataTable var="cita" value="#{dtFilterView.citasP}" widgetVar="carsTable" 
+                                         selection="#{dtFilterView.selectedLista}" rowKey="#{cita.idCita}"
+                                         emptyMessage="No se encontraron citas con el criterio de busqueda" filteredValue="#{dtFilterView.filteredCitas}">
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Introduza su búsqueda"/>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                              
+                                <p:column  filterBy="#{cita.tipo}"  headerText="Tipo" footerText="" filterMatchMode="contains" >
+                                    <h:outputText value="#{cita.tipo}" />
+                                </p:column>
+                                <p:column  filterBy="#{cita.fecha}"  headerText="Fecha" footerText="" filterMatchMode="contains" >
+                                    <h:outputText value="#{cita.fecha}" />
+                                </p:column>
+                                <p:column  filterBy="#{cita.hora}"  headerText="Fecha" footerText="" filterMatchMode="contains" >
+                                    <h:outputText value="#{cita.hora}" />
+                                </p:column>
+                                <p:column  filterBy="#{cita.observaciones}"  headerText="Obersvaciones" footerText="" filterMatchMode="contains" >
+                                    <h:outputText value="#{cita.observaciones}" />
+                                </p:column>
+                                 <p:column  filterBy="#{cita.nombre}"  headerText="Obersvaciones" footerText="" filterMatchMode="contains" >
+                                    <h:outputText value="#{cita.nombre}" />
+                                </p:column>
+                            </p:dataTable>
+                            <br/>
+                            <div align="center" >
+                                <p:commandButton value="Eliminar" action="#{dtFilterView.deleteCita}" update="messages" /> 
+                                <!--onclick="PF('dlg1').show();"-->
+                            </div>
+                            <p:dialog modal="true" id="dlg1" widgetVar="dlg1" draggable="false" appendTo="@(body)">
+                                <h:outputText value="¿Esta seguro de eliminar esta cita?" />
+                                <p:commandButton id="yes" value="Si" type="button" immediate="true" action="#{dtFilterView.deleteCita}" />
+                                <p:commandButton id="no" value="no"  onclick="PF('dlg1').hide();" />
+                            </p:dialog>
 
-                        <h:panelGrid columnClasses="value">
-                            <p:schedule id="schedule" value="#{scheduleView.eventModel}" widgetVar="myschedule" timeZone="GMT+2" minTime="9" maxTime="19" >
-
-                                <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                                <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="messages" />
-                                <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="messages" />
-
-                            </p:schedule>
-                        </h:panelGrid>
-
-                        <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
-                            <h:panelGrid id="eventDetails" columns="2">
-                                <p:outputLabel for="title" value="Titles:" />
-                                <p:inputText id="title" value="#{scheduleView.event.title}" required="true" />
-
-                                <p:outputLabel for="from" value="From:" />
-                                <p:calendar id="from" value="#{scheduleView.event.startDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
-
-                                <p:outputLabel for="to" value="To:" />
-                                <p:calendar id="to" value="#{scheduleView.event.endDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
-
-                                <p:outputLabel for="allDay" value="All Day:" />
-                                <h:selectBooleanCheckbox id="allDay" value="#{scheduleView.event.allDay}" />
-
-                                <p:commandButton type="reset" value="Reset" />
-                                <p:commandButton id="addButton" value="Save" actionListener="#{scheduleView.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
-                            </h:panelGrid>
-                            
-                        </p:dialog>    
-                    </h:form>
+                        </h:form>
                     </p:panel>
                     <style type="text/css">
                         .value {
@@ -58,4 +72,3 @@
         </h:body>
     </f:view>
 </html>
-

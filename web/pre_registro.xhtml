@@ -10,10 +10,16 @@
             <title>Pre registro</title>
         </h:head>
         <h:body>
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{pre_registro.validaPagina()}"/>
+            </f:metadata>
             <ui:composition template="templates/master.xhtml">
+                <ui:define name="encabezado">
+                    <p:commandButton value="Cancelar" icon="fa fa-fw fa-sign-out" class="pull-right" action="#{master.cerrar_sesion()}"/>
+                </ui:define>
                 <ui:define name="cuerpo">
                     <center>
-                        <h:form id="formCrear">
+                        <h:form id="formPre">
                             <p:panel header="Pre registro de Cliente" style="width: 50%;">
                                 <p:growl id="growlMessage" showDetail="true" sticky="false" life="2500" />
                                 <h:panelGrid id="grid" columns="3" cellpadding="5">
@@ -32,10 +38,14 @@
                                     <h:outputLabel for="email" value="Correo Electronico: "/>
                                     <h:inputText id="email" value="#{pre_registro.correo}" required="true" label="Email"/>
                                     <p:message for="email"/>
-                                    <p:commandButton id="registrarse" value="Registrase" icon="ui-icon-check" validateClient="true" update="growlMessage" 
+                                    <p:commandButton id="pre_registrarse" value="Registrase" icon="ui-icon-check" validateClient="true" update="growlMessage" 
                                                      action="#{pre_registro.preRegistro()}" />
                                 </h:panelGrid>
                             </p:panel>
+                            <p:blockUI block="formPre" trigger="pre_registrarse">
+                                Procesando <br/>
+                                <p:graphicImage library="img" name="squares.gif"/>
+                            </p:blockUI>
                         </h:form>
                     </center>
                 </ui:define>

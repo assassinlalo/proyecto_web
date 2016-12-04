@@ -7,18 +7,22 @@ package Modelo;
 
 import java.io.IOException;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author lalo
  */
 @Named(value = "master")
-@SessionScoped
+@RequestScoped
 public class Master_MB implements Serializable {
+
+    HttpSession session;
+    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 
     /**
      * Creates a new instance of master
@@ -26,9 +30,10 @@ public class Master_MB implements Serializable {
     public Master_MB() {
     }
     
-    public void inicio() throws IOException{
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        ec.redirect(ec.getRequestContextPath()+"/faces/index.xhtml");
+    public void cerrar_sesion() throws IOException {
+        session = (HttpSession) ec.getSession(false);
+        session.invalidate();
+        ec.redirect(ec.getRequestContextPath() + "/faces/index.xhtml");
     }
-    
+
 }

@@ -12,36 +12,64 @@
         <h:body>
             <ui:composition template="../templates/master.xhtml">
                 <ui:define name="encabezado">
-
+                    <p:commandButton value="LogOut" icon="fa fa-fw fa-sign-out" class="pull-right" action="#{master.cerrar_sesion()}"/>
                 </ui:define>
                 <ui:define name="cuerpo">
-                    <center>
-                        <h:form id="formCrear">
-                            <p:panel header="Agendar una Cita" style="width: 50%;">
+                    <f:metadata>
+                        <f:event type="preRenderView" listener="#{cliente.validaPagina()}"/>
+                    </f:metadata>
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-7,ui-grid-col-5" layout="grid" styleClass="ui-panelgrid-blank">
+                        <p:panel header="Agendar una Cita" style="width: 100%;">
+                            <center>
+                            <h:form id="formAgendar">
                                 <p:growl id="growlMessage" showDetail="true" sticky="false" life="2500" />
                                 <h:panelGrid id="grid" columns="3" cellpadding="5">
+
                                     <h:outputLabel for="tipo" value="Tipo:"/>
                                     <h:inputText id="tipo" value="#{cliente.tipo}" required="true" label="Tipo"/>
                                     <p:message for="tipo"/>
 
                                     <h:outputLabel for="fecha" value="Fecha:"/>
-                                    <p:calendar id="fecha" value="#{cliente.fecha}"  pattern="dd/MM/yyyy" mindate="#{cliente.today}"/>
+                                    <p:calendar id="fecha" value="#{cliente.fechaForm}"  pattern="dd/MM/yyyy" mindate="#{cliente.today}" required="true"/>
                                     <p:message for="fecha"/>
 
                                     <h:outputLabel for="obs" value="Observaciones:"/>
-                                    <h:inputText id="obs" value="#{cliente.observaciones}" required="true" label="Observaciones"/>
+                                    <h:inputText id="obs" value="#{cliente.observaciones}" required="true" label="Observaciones" />
                                     <p:message for="obs"/>
 
                                     <h:outputLabel for="hora" value="Hora: "/>
-                                    <p:calendar id="hora" value="#{cliente.hora}" pattern="HH:mm" timeOnly="true" minHour="9" maxHour="18" />
+                                    <p:calendar id="hora" value="#{cliente.horaForm}" pattern="HH:mm" timeOnly="true" minHour="9" maxHour="18" required="true"/>
                                     <p:message for="hora"/>
 
                                     <p:spacer width="2"/>
-                                    <p:commandButton id="agendar" value="Agendar Cita" icon="ui-icon-check" validateClient="true" update="growlMessage"/>
+                                    <p:commandButton id="btnAgendar" value="Agendar Cita" icon="ui-icon-check" action="#{cliente.creaCita()}" 
+                                                     validateClient="true" update="growlMessage"/>
                                 </h:panelGrid>
-                            </p:panel>
-                        </h:form>
-                    </center>
+                                <p:blockUI block="formAgendar" trigger="btnAgendar">
+                                    Procesando <br/>
+                                    <p:graphicImage library="img" name="squares.gif"/>
+                                </p:blockUI>
+                            </h:form>
+                        </center>
+                        </p:panel>
+                        <p:panel header="Datos del Cliente" style="width: 100%;">
+                            <h:panelGrid id="grid" columns="3" cellpadding="5">
+                                    <p:spacer width="1"/>
+                                    <h:outputLabel for="correo" value="Nombre: "/>
+                                    <h:outputLabel for="correo" value="#{cliente.clientePojo.nombre} #{cliente.clientePojo.apellidoPaterno} 
+                                                   #{cliente.clientePojo.apellidoMaterno}"/>
+                                    <p:spacer width="1"/>
+                                    
+                                    <p:spacer width="1"/>
+                                    <p:graphicImage id="foto" value="/resources/fotos/#{cliente.clientePojo.nombreFoto}.png" width="140" height="130"/>
+                                    <p:spacer width="1"/>
+                                    
+                                    <h:outputLabel for="correo" value="correo: "/>
+                                    <h:outputLabel for="correo" value="#{cliente.clientePojo.correoE}"/>
+                                    <p:spacer width="1"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:panelGrid>
                 </ui:define>
             </ui:composition>
         </h:body>

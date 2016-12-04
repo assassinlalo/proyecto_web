@@ -17,6 +17,7 @@
                         <f:viewParam name="am" value="#{nuevo.apellidoMaterno}"/>
                         <f:viewParam name="nom" value="#{nuevo.nombre}"/>
                         <f:viewParam name="co" value="#{nuevo.correoE}"/>
+                        <f:event type="preRenderView" listener="#{nuevo.validaPagina()}"/>
                     </f:metadata>
                     <center>
                         <h:form id="formCrear">
@@ -40,8 +41,10 @@
                                     <h:outputLabel for="email" value="Correo Electronico: (Este sera tu usuario)"/>
                                     <h:inputText id="email" value="#{nuevo.correoE}" required="true" label="Email"/>
                                     <p:message for="email"/>
-
-                                    <p:graphicImage id="foto" value="/resources/fotos/#{nuevo.foto}.png" width="140" height="130"/>
+                                    <!--<p:commandLink >-->
+                                    <!--<p:graphicImage rendered="{!nuevo.verFoto}" value="/resources/fotos/profile.png" width="140" height="130"/>-->
+                                    <p:graphicImage id="foto" value="/resources/fotos/#{nuevo.foto}.png" width="140" height="130" cache="false"/>
+                                    <!--</p:commandLink>-->
                                     <p:commandButton id="tomarFoto" value="Tomar Foto" onclick="PF('TomaFoto').show()"
                                                      type="button"/>
                                     <p:message for="foto"/>
@@ -58,19 +61,6 @@
 
                                 </h:panelGrid>
                             </p:panel>
-                            
-<!--                            <p:dialog id="TomaFoto" header="Tomar Foto" widgetVar="TomaFoto" closeOnEscape="true"
-                                      appendTo="@(body)" draggable="false" position="center" resizable="false">
-                                <p:photoCam widgetVar="pc" listener="" update="formCrear:foto" />
-                                <p:commandButton type="button" value="Capture" onclick="Captura()"/>
-                            </p:dialog>-->
-<!--                            <script>
-                                function Captura() {
-                                    PF('pc').capture();
-                                    PF('TomaFoto').jq.effect("share", {times: 5}, 100);
-                                    PF('TomaFoto').jq.effect("blind", 100);
-                                }
-                            </script>-->
                             <p:dialog id="TomaFoto" header="Tomar foto" widgetVar="TomaFoto" modal="true"
                                       closeOnEscape="true"  appendTo="@(body)" draggable="false" position="center" resizable="false">
                                 <p:photoCam widgetVar="pc"  listener="#{nuevo.oncapture}" update="foto" />
@@ -78,13 +68,12 @@
                                 <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" >
                                     <p:ajax oncomplete="PF('TomaFoto').hide();" />
                                 </p:commandButton>
-                            </p:dialog>       
+                            </p:dialog>
                             <p:blockUI block="formCrear" trigger="registrarse">
                                 Procesando <br/>
-                                <p:graphicImage library="resources/img" name="squares.gif"/>
+                                <p:graphicImage library="img" name="squares.gif"/>
                             </p:blockUI>
                         </h:form>
-
                     </center>
                 </ui:define>
             </ui:composition>

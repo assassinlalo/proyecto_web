@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author lalo
+ * @author sony
  */
 @Entity
 @Table(name = "citas")
@@ -31,7 +31,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Citas.findByIdCita", query = "SELECT c FROM Citas c WHERE c.idCita = :idCita"),
     @NamedQuery(name = "Citas.findByTipo", query = "SELECT c FROM Citas c WHERE c.tipo = :tipo"),
     @NamedQuery(name = "Citas.findByFecha", query = "SELECT c FROM Citas c WHERE c.fecha = :fecha"),
-    @NamedQuery(name = "Citas.findByObservaciones", query = "SELECT c FROM Citas c WHERE c.observaciones = :observaciones")})
+    @NamedQuery(name = "Citas.findByObservaciones", query = "SELECT c FROM Citas c WHERE c.observaciones = :observaciones"),
+    @NamedQuery(name = "Citas.findByHora", query = "SELECT c FROM Citas c WHERE c.hora = :hora")})
 public class Citas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,7 +52,12 @@ public class Citas implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "observaciones")
     private String observaciones;
-    @JoinColumn(name = "idCliente", referencedColumnName = "uid")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 5)
+    @Column(name = "hora")
+    private String hora;
+    @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
     @ManyToOne
     private Clientes idCliente;
 
@@ -62,9 +68,10 @@ public class Citas implements Serializable {
         this.idCita = idCita;
     }
 
-    public Citas(Integer idCita, String observaciones) {
+    public Citas(Integer idCita, String observaciones, String hora) {
         this.idCita = idCita;
         this.observaciones = observaciones;
+        this.hora = hora;
     }
 
     public Integer getIdCita() {
@@ -97,6 +104,14 @@ public class Citas implements Serializable {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     public Clientes getIdCliente() {

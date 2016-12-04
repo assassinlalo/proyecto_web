@@ -33,7 +33,7 @@
                                 <p:growl id="growlMensaje" showDetail="true" sticky="false" life="2500" />
                                 <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto;"    >
                                     <h:outputLabel value="Usuario: "/>
-                                    <p:inputText id="login" label="usuario" value="#{login.login}" required="true" 
+                                    <p:inputText id="login" label="usuario" value="#{login.correo}" required="true" 
                                                  requiredMessage="Usuario, no válido" 
                                                  validatorMessage="La longitud del usuario debe ser minimo de 3 y máximo de 8">
                                         <!--                                <f:validateLength minimum="3" maximum="8"/>
@@ -51,13 +51,11 @@
                                     <p:commandButton value="Iniciar Sesión" action="#{login.submit()}" update="growlMensaje"/>
                                     <f:facet name="footer">
                                         <h:panelGrid columns="3" style="margin-left: 10%;">
+                                            <p:spacer width="30"/>
                                             <p:outputPanel id="registra">
-                                                <p:commandLink value="Registrarse" ajax="false" immediate="true" action="pre_registro" />
+                                                <p:commandLink value="Registrarse" ajax="false" immediate="true" action="#{login.preRegistrar()}" />
                                             </p:outputPanel>
-                                            <p:spacer width="10"/>
-                                            <p:outputPanel id="cambio_contra">
-                                                <p:commandLink value="Cambiar contraseña" ajax="false" immediate="true" action="cambio_contra"/>
-                                            </p:outputPanel>
+                                            
                                         </h:panelGrid>
                                     </f:facet>
                                 </h:panelGrid>

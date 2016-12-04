@@ -6,6 +6,8 @@
 package Control;
 
 import Entidad.Userstemp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -89,5 +91,75 @@ public class UserTempFacade {
         }
         
         return mensaje;
+    }
+    
+    public UserTempPojo buscaUsuario(String correo) {
+        boolean valido = false;
+        UserTempPojo userTemPojo = null;
+        System.out.println("Busca usuario en usuario facade:");
+        System.out.println("correo: " + correo);
+        Userstemp usuarioTemp = new Userstemp();
+        usuarioTemp = userJPA.findByEmail(correo);
+        System.out.println("Usuario hallado: " + usuarioTemp);
+        if (usuarioTemp != null) {
+            valido = validaUsuario(usuarioTemp, correo);
+            if (valido) {
+                userTemPojo = ConsigueDatosUsuarioTemp(usuarioTemp);
+            } else {
+                userTemPojo = null;
+            }
+        }
+        return userTemPojo;
+    }
+    private boolean validaUsuario(Userstemp user, String correo) {
+        String actPwd;
+        actPwd = user.getCorreo();
+        if (actPwd.equals(correo)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private UserTempPojo ConsigueDatosUsuarioTemp(Userstemp usuario) {
+        UserTempPojo userPojo = new UserTempPojo();
+        userPojo.setId(usuario.getId());
+        userPojo.setAp(usuario.getAp());
+        userPojo.setAm(usuario.getAm());
+        userPojo.setNombre(usuario.getNombre());
+        userPojo.setCorreo(usuario.getCorreo());
+        userPojo.setPasswordTemp(usuario.getPasswordTemp());
+        userPojo.setHash(usuario.getHash());
+        userPojo.setActivo(usuario.getActivo());
+        userPojo.setEstado(usuario.getEstado());
+        return userPojo;
+    }
+    
+    public boolean editarActivoUsuario(UserTempPojo userPojo){
+        boolean exito;
+        try {
+            Userstemp usuarioTemp = new Userstemp(userPojo.getId(),userPojo.getAp(), userPojo.getAm(), userPojo.getNombre(), userPojo.getCorreo(),userPojo.getPasswordTemp(),userPojo.getHash(), userPojo.getActivo(), userPojo.getEstado());
+            System.out.println("Me voy a jpa a editar el estado del usuario ------>"+usuarioTemp.getNombre());
+            userJPA.edit(usuarioTemp);
+            exito=true;
+        } catch (Exception ex) {
+            exito=false;
+            Logger.getLogger(UserTempFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exito;
+    }
+    
+    public boolean editarEstadoUsuario(UserTempPojo userPojo){
+        boolean exito;
+        try {
+            Userstemp usuarioTemp = new Userstemp(userPojo.getId(),userPojo.getAp(), userPojo.getAm(), userPojo.getNombre(), userPojo.getCorreo(),userPojo.getPasswordTemp(),userPojo.getHash(), userPojo.getActivo(), userPojo.getEstado());
+            System.out.println("Me voy a jpa a editar el estado del usuario ------>"+usuarioTemp.getNombre());
+            userJPA.edit(usuarioTemp);
+            exito=true;
+        } catch (Exception ex) {
+            exito=false;
+            Logger.getLogger(UserTempFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exito;
     }
 }

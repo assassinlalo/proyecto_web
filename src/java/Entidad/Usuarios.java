@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author lalo
+ * @author sony
  */
 @Entity
 @Table(name = "usuarios")
@@ -50,6 +50,8 @@ public class Usuarios implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "ucontrasenia")
     private String ucontrasenia;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uid")
+    private Collection<Roles> rolesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "uid")
     private Collection<Clientes> clientesCollection;
 
@@ -88,6 +90,14 @@ public class Usuarios implements Serializable {
 
     public void setUcontrasenia(String ucontrasenia) {
         this.ucontrasenia = ucontrasenia;
+    }
+
+    public Collection<Roles> getRolesCollection() {
+        return rolesCollection;
+    }
+
+    public void setRolesCollection(Collection<Roles> rolesCollection) {
+        this.rolesCollection = rolesCollection;
     }
 
     public Collection<Clientes> getClientesCollection() {

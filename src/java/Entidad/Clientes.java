@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author lalo
+ * @author sony
  */
 @Entity
 @Table(name = "clientes")
@@ -36,7 +36,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Clientes.findByNombre", query = "SELECT c FROM Clientes c WHERE c.nombre = :nombre"),
     @NamedQuery(name = "Clientes.findByCorreoE", query = "SELECT c FROM Clientes c WHERE c.correoE = :correoE"),
     @NamedQuery(name = "Clientes.findByEdad", query = "SELECT c FROM Clientes c WHERE c.edad = :edad"),
-    @NamedQuery(name = "Clientes.findByNombreFoto", query = "SELECT c FROM Clientes c WHERE c.nombreFoto = :nombreFoto")})
+    @NamedQuery(name = "Clientes.findByNombreFoto", query = "SELECT c FROM Clientes c WHERE c.nombreFoto = :nombreFoto"),
+    @NamedQuery(name = "Clientes.findByUid", query = "SELECT c FROM Clientes c WHERE c.uid = :uid")})
 public class Clientes implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,11 +71,11 @@ public class Clientes implements Serializable {
     @Size(max = 20)
     @Column(name = "nombreFoto")
     private String nombreFoto;
+    @OneToMany(mappedBy = "idCliente")
+    private Collection<Citas> citasCollection;
     @JoinColumn(name = "uid", referencedColumnName = "uid")
     @ManyToOne(optional = false)
     private Usuarios uid;
-    @OneToMany(mappedBy = "idCliente")
-    private Collection<Citas> citasCollection;
 
     public Clientes() {
     }
@@ -147,20 +148,20 @@ public class Clientes implements Serializable {
         this.nombreFoto = nombreFoto;
     }
 
-    public Usuarios getUid() {
-        return uid;
-    }
-
-    public void setUid(Usuarios uid) {
-        this.uid = uid;
-    }
-
     public Collection<Citas> getCitasCollection() {
         return citasCollection;
     }
 
     public void setCitasCollection(Collection<Citas> citasCollection) {
         this.citasCollection = citasCollection;
+    }
+
+    public Usuarios getUid() {
+        return uid;
+    }
+
+    public void setUid(Usuarios uid) {
+        this.uid = uid;
     }
 
     @Override
@@ -187,5 +188,5 @@ public class Clientes implements Serializable {
     public String toString() {
         return "Entidad.Clientes[ idCliente=" + idCliente + " ]";
     }
-    
+
 }

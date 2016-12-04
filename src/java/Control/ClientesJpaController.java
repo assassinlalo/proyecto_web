@@ -217,4 +217,38 @@ public class ClientesJpaController implements Serializable {
         }
     }
     
+    /*************************************************************** CREADOS ***************************************************************************************/
+    
+    public Clientes findByEmail(String correo){
+        EntityManager em = getEntityManager();
+        Clientes resultado = new Clientes();
+        List<Clientes> results = em.createNamedQuery("Clientes.findByCorreoE",Clientes.class).setParameter("correoE", correo).getResultList();
+        
+        try{
+            resultado = results.get(0);
+        }catch(Exception ex){
+            resultado = null;
+            System.out.println("Ocurrio un error!!!!!!! EN el JPA Controller ");
+        }
+        
+        return resultado;
+    }
+    
+    public Clientes findByUid(Usuarios uid ){
+        EntityManager em = getEntityManager();
+        Clientes cliente;
+        
+        List<Clientes> results = em.createNamedQuery("Clientes.findByUid",Clientes.class).setParameter("uid", uid).getResultList();
+        
+        try{
+            cliente = results.get(0);
+        }catch(Exception ex){
+            cliente = null;
+            System.out.println("Ocurrio un error!!!!!!! EN el JPA Controller ");
+        }
+        
+        return cliente;
+    }
+    
+    
 }

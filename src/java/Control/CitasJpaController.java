@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entidad.Clientes;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -165,4 +166,30 @@ public class CitasJpaController implements Serializable {
         }
     }
     
+    /*************************************************************** CREADOS ***************************************************************************************/
+    
+    public boolean yaExisteHora(String fecha, String hora){
+        EntityManager em = getEntityManager();
+        boolean ExisteCita = false;
+        List<Citas> results = em.createNamedQuery("Citas.findByFecha",Citas.class).setParameter("fecha", fecha).getResultList();
+        try{
+            for (Citas itera : results) {
+                if(itera.getHora().equals(hora)){
+                    ExisteCita = true;
+                }
+            }
+        }catch(Exception ex){
+            ExisteCita = true;
+            System.out.println("Ocurrio un error!!!!!!! EN el JPA Controller ");
+        }
+        return ExisteCita;
+    }
+    
+    public int cuantasHayFecha(String fecha){
+        int cont;
+        EntityManager em = getEntityManager();
+        List<Citas> results = em.createNamedQuery("Citas.findByFecha",Citas.class).setParameter("fecha", fecha).getResultList();
+        cont = results.size();
+        return cont;
+    }
 }

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Facelet Title</title>
+        </h:head>
+        <h:body>
+            <ui:composition template="../templates/master.xhtml">
+                <ui:define name="cuerpo">
+                    <p:panel header="Modificar una cita" style="width: 90%;">
+                    <h:form>
+                       <p:growl id="growlMessage" showDetail="true" sticky="false" life="2500" />
+                             <h:panelGrid id="grid" columns="3" cellpadding="5">
+                                    <h:outputLabel for="tipo" value="Tipo:"/>
+                                    <h:inputText id="tipo" value="#{cliente.tipo}" required="true" label="Tipo"/>
+                                    <p:message for="tipo"/>
+
+                                    <h:outputLabel for="fecha" value="Fecha:"/>
+                                    <p:calendar id="fecha" value="#{cliente.fecha}"  pattern="dd/MM/yyyy" mindate="#{cliente.today}"/>
+                                    <p:message for="fecha"/>
+
+                                    <h:outputLabel for="obs" value="Observaciones:"/>
+                                    <h:inputText id="obs" value="#{cliente.observaciones}" required="true" label="Observaciones"/>
+                                    <p:message for="obs"/>
+
+                                    <h:outputLabel for="hora" value="Hora: "/>
+                                    <p:calendar id="hora" value="#{cliente.hora}" pattern="HH:mm" timeOnly="true" minHour="9" maxHour="18" />
+                                    <p:message for="hora"/>
+
+                                    <p:spacer width="2"/>
+                                    <p:commandButton id="agendar" value="Modificar Cita" icon="ui-icon-check" validateClient="true" update="growlMessage"/>
+                                </h:panelGrid>
+
+                      
+                    </h:form>
+                    </p:panel>
+                    <style type="text/css">
+                        .value {
+                            width: 620px;
+                        }
+                    </style>
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>
